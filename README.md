@@ -1,7 +1,4 @@
-To display the given text as editable code in Markdown for GitHub, we should use code blocks. In Markdown, code blocks are created using triple backticks (` ``` `) before and after the code. Here's how your text would be converted into Markdown format with code blocks:
-
-
-## Spaß mit Datenbanken
+# Spaß mit Datenbanken
 ### SQL
 ### Structured Query Language
 
@@ -108,4 +105,142 @@ Die Grundlagen der Relationalen Datenbanken liegen in den Arbeiten von Edgar F. 
 
 Er entwickelte ein algebraisches Modell (eine Algebra befasst sich mit den Eigenschaften von Rechenoperationen), das sich damit befasst, wie Daten gespeichert, abgefragt und manipuliert werden können.
 
-Die Operationen basieren auf Relationen, den
+Die Operationen basieren auf Relationen, den Tabellen.
+
+#### Konzepte relationaler Datenbanken
+##### Theorie
+Alle zu speichernden Informationen, also auch die Beschreibung der Datenbank selbst, werden in Form von Tabellen durchgeführt. 
+
+Mathematische Beschreibung der Relation:
+Eine Relation `R` zwischen den Mengen `A` und `B` kann durch die Elementpaare `(a, b)` ausgedrückt werden, für die `aRb` gilt. Eine Relation ist eine Teilmenge des kartesischen Produkts `A x B`.
+
+##### Beispiel
+`S` sei die Menge aller österreichischen Städte (Domäne `S`) (Wien, Linz, Eisenstadt, Bregenz, …)
+
+`F` sei die Menge aller österreichischen Flüsse (Domäne `F`) (Mur, Donau, Inn, …)
+
+`R` sei die Relation  `liegt am / liegt an der`
+
+Eine Relation über den beiden Domänen  ist definiert als eine Teilmenge des kartesischen Produktes:
+`s  liegt am / an der  f`
+
+#### Relation und Tupel
+Ein Tupel (Zeile) ist ein Element einer Relation
+
+Ein Telefonbuch ist Beispiel für eine Relation. Ein Tupel besteht aus den Komponenten (Attributen) `Name, Straße und Telefonnummer`.
+
+Das Tupel für die `CODERS.BAY` hat die Attributsausprägungen `Peter Behrens Platz 6 und 073269227070`
+
+#### Operationen der relationalen Algebra
+* Projektion
+* Selektion
+* Kartesisches Produkt
+* Umbenennung
+* Vereinigung
+* Differenz
+
+#### Beispieltabellen 
+##### DEPT
+
+```plaintext
+DEPTNO | DNAME       | LOC
+---------------------------
+10     | ACCOUNTING  | NEW YORK
+20     | RESEARCH    | DALLAS
+30     | SALES       | CHICAGO
+40     | OPERATIONS  | BOSTON
+```
+
+##### EMP
+
+```plaintext
+EMPNO | ENAME  | JOB       | MGR  | HIREDATE  | SAL  | COMM | DEPTNO
+---------------------------------------------------------------------
+7369  | SMITH  | CLERK     | 7902 | 17-DEC-80 | 800  |      | 20
+...   | ...    | ...       | ...  | ...       | ...  | ...  | ...
+```
+
+#### Tabellen anlegen
+* Der Name der Tabelle
+* Der Name jeder Spalte
+* Der Typ der Daten, die in jeder Spalte gespeichert werden
+* Die Länge jeder Spalte
+* Weitere optionale Informationen
+
+##### DEPT
+
+```plaintext
+DEPTNO | DNAME       | LOC
+---------------------------
+10     | ACCOUNTING  | NEW YORK
+20     | RESEARCH    | DALLAS
+30     | SALES       | CHICAGO
+40     | OPERATIONS  | BOSTON
+```
+
+```sql
+CREATE TABLE DEPT (
+ DEPTNO              NUMBER(2) NOT NULL,
+ DNAME               CHAR(14),
+ LOC                 CHAR(13),
+ CONSTRAINT DEPT_PRIMARY_KEY PRIMARY KEY (DEPTNO));
+```
+
+#### Einfügen von Tupel
+
+```sql
+INSERT INTO Tabelle
+VALUES (Liste von Datenwerten);
+```
+
+Beispiel:
+
+```sql
+INSERT INTO EMP VALUES (7954,'CARTER','CLERK',7698,'7-APR-84',1000,NULL,30);
+```
+
+* Einfügen von Null-Werten:
+
+```sql
+INSERT INTO EMP (EMPNO,ENAME,HIREDATE,DEPTNO,SAL) VALUES (7955,'WILSON','22-APR-84',30,1500);
+```
+
+* Einfügen von Datumswerten:
+
+```sql
+INSERT INTO EMP 
+VALUES (7657,'MASON','ANALYST',7566,
+TO_DATE('4/24/84','MM/DD/YY'), 3400, NULL, 20);
+```
+
+#### Ändern und Löschen
+##### Ändern
+
+```sql
+UPDATE EMP
+SET JOB = 'SALESMAN' 
+WHERE ENAME = 'WILSON’;
+```
+
+##### Löschen
+
+```sql
+DELETE FROM BONUS
+WHERE ENAME = 'WARD';
+```
+
+#### Daten auslesen (SELECT)
+
+```sql
+SELECT DNAME, DEPTNO
+FROM DEPT;
+
+SELECT *
+FROM EMP 
+
+SELECT DISTINCT JOB
+FROM EMP;
+
+SELECT (DISTINCT) DNAME 
+FROM DEPT
+```
